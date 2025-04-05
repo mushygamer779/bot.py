@@ -1,7 +1,5 @@
 import telebot
-import random
-import function, function_2,function_3
-
+import function
 # Замени 'TOKEN' на токен твоего бота
 # Этот токен ты получаешь от BotFather, чтобы бот мог работать
 bot = telebot.TeleBot("7727847168:AAF8jIYtO2YX5iMjuJzWHUYtH8wXI5yPT28")
@@ -27,20 +25,32 @@ def send_bye(message):
     bot.reply_to(message, "https://www.fullhdfilmizlesene.de/")
 
 
-@bot.message_handler(commands=['coin_flip'])
+@bot.message_handler(commands=['flip_coin'])
 def send_bye(message):
-    bot.reply_to(message, function_2.flip_coin())
+    bot.reply_to(message, function.flip_coin())
 
-@bot.message_handler(commands=['double-letter'])
+@bot.message_handler(commands=['double_letter'])
 def send_bye(message):
-    bot.reply_to(message, function_3.double_letter())
+    bot.reply_to(message, function.double_letter(message.text))
 
 
+# use in for delete with the necessary scope and language_code if necessary
+bot.delete_my_commands(scope=None, language_code=None)
 
-'''
-@bot.message_handler(commands=['watch_movies'])
-def send_bye(message):
-    bot.reply_to(message, random.choice([_-_,-_-]))'''
+bot.set_my_commands(
+    commands= [
+        telebot.types.BotCommand("/flip_coin","hej"),
+        telebot.types.BotCommand("/create_pass", "gah"),
+        telebot.types.BotCommand("/double_letter","ouu")
+            ],
+    # scope=telebot.types.BotCommandScopeChat(12345678)  # use for personal command for users
+    # scope=telebot.types.BotCommandScopeAllPrivateChats()  # use for all private chats
+)
+
+# check command
+cmd = bot.get_my_commands(scope=None, language_code=None)
+print([c.to_json() for c in cmd])
+
 
 
 @bot.message_handler(func=lambda message: True)
