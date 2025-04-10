@@ -1,12 +1,90 @@
 import telebot
-import function
+import function, traslator_and_caliculator
+#import time, threading, schedule
+from telebot import TeleBot
 # Замени 'TOKEN' на токен твоего бота
 # Этот токен ты получаешь от BotFather, чтобы бот мог работать
 bot = telebot.TeleBot("7727847168:AAF8jIYtO2YX5iMjuJzWHUYtH8wXI5yPT28")
 
+
+@bot.message_handler(commands=['cal_add'])
+def send_hello(message):
+    try:
+        ab = message.text.split()
+        #bc = message.text.split(',')
+        print(ab)
+        bot.reply_to(message, traslator_and_caliculator.calculator_add(ab[1], ab[2]))
+        
+    except:
+        bot.reply_to(message, 'введите /cal число a и число b через пробел1')
+
+
+
+@bot.message_handler(commands=['cal_sub'])
+def send_hello(message):
+    try:
+        cd = message.text.split()  
+        #bc = message.text.split(',')
+        print(cd)
+        bot.reply_to(message, traslator_and_caliculator.calculator_subtract(cd[1], cd[2]))
+        
+    except:
+        bot.reply_to(message, 'введите /cal число a и число b через пробел2')
+
+
+@bot.message_handler(commands=['cal_mult'])
+def send_hello(message):
+    try:
+        ef = message.text.split()  
+        #bc = message.text.split(',')
+        print(ef)
+        bot.reply_to(message, traslator_and_caliculator.calculator_multiply(ef[1], ef[2]))
+        
+    except:
+        bot.reply_to(message, 'введите /cal число a и число b через пробел3')
+
+
+@bot.message_handler(commands=['cal_div'])
+def send_hello(message):
+    try:
+        gh = message.text.split()  
+        #bc = message.text.split(',')
+        print(gh)
+        bot.reply_to(message, traslator_and_caliculator.calculator_divide(gh[1], gh[2]))
+        
+    except:
+        bot.reply_to(message, 'введите /cal число a и число b через пробел4')
+
+#advanced
+'''@bot.message_handler(commands=['cal_div'])
+def send_hello(message):
+    try:
+        gh = message.text.split()
+        if len(gh) != 3:
+            bot.reply_to(message, "Please provide two numbers separated by space after /cal_div.")
+            return
+
+        num1 = float(gh[1])
+        num2 = float(gh[2])
+        result = traslator_and_caliculator.calculator_divide(num1, num2)
+        bot.reply_to(message, result)
+    except ValueError:
+        bot.reply_to(message, "Invalid numbers provided! Please ensure you're using numerical values.")
+    except ZeroDivisionError:
+        bot.reply_to(message, "Division by zero is not allowed!")
+    except:
+        bot.reply_to(message, "Please use /cal_div followed by two numbers separated by space.")'''
+
+
+
+
+
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь!")
+
+  
 
 @bot.message_handler(commands=['hello'])
 def send_hello(message):
@@ -25,6 +103,7 @@ def send_bye(message):
     bot.reply_to(message, "https://www.fullhdfilmizlesene.de/")
 
 
+
 @bot.message_handler(commands=['flip_coin'])
 def send_bye(message):
     bot.reply_to(message, function.flip_coin())
@@ -34,14 +113,18 @@ def send_bye(message):
     bot.reply_to(message, function.double_letter(message.text))
 
 
+
+
 # use in for delete with the necessary scope and language_code if necessary
 bot.delete_my_commands(scope=None, language_code=None)
 
 bot.set_my_commands(
     commands= [
-        telebot.types.BotCommand("/flip_coin","hej"),
-        telebot.types.BotCommand("/create_pass", "gah"),
-        telebot.types.BotCommand("/double_letter","ouu")
+        telebot.types.BotCommand("/flip_coin","non"),
+        telebot.types.BotCommand("/create_pass", "non"),
+        telebot.types.BotCommand("/double_letter","non"),
+        telebot.types.BotCommand("/watch_movies","non"),
+       # telebot.types.BotCommand("/caliculator","non")
             ],
     # scope=telebot.types.BotCommandScopeChat(12345678)  # use for personal command for users
     # scope=telebot.types.BotCommandScopeAllPrivateChats()  # use for all private chats
@@ -57,5 +140,10 @@ print([c.to_json() for c in cmd])
 def echo_all(message):
     bot.reply_to(message, message.text)
 print('start')
+
+
+
+
+
 
 bot.polling()
