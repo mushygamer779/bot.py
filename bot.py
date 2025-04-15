@@ -1,10 +1,46 @@
 import telebot
-import function, traslator_and_caliculator
+import function, traslator_and_caliculator, get_duvk_image, random
 #import time, threading, schedule
+import requests
 from telebot import TeleBot
 # Замени 'TOKEN' на токен твоего бота
 # Этот токен ты получаешь от BotFather, чтобы бот мог работать
 bot = telebot.TeleBot("7727847168:AAF8jIYtO2YX5iMjuJzWHUYtH8wXI5yPT28")
+
+    
+    
+@bot.message_handler(commands=['duck'])
+def send_duck(message):
+    bot.send_photo(message.chat.id, get_duvk_image.get_duck_image_url())
+
+
+
+
+# Список мемов с указанием их редкости
+memes = [
+    {"file_id": "mem.jbg", "rarity": 70},  # Более распространенный
+    {"file_id": "meme2.jbg", "rarity": 20},  # Редкий
+    {"file_id": "meme3.jbg", "rarity": 10},  # Очень редкийw3
+]
+
+def get_random_meme():
+    # Создаем расширенный список для учета редкости
+    extended_list = []
+    for meme in memes:
+        extended_list.extend([meme["file_id"]] * meme["rarity"])
+    # Возвращаем случайный мем
+    return random.choice(extended_list)
+
+# Команда для получения мемов
+@bot.message_handler(commands=['ran_meme'])
+def send_animal_meme(message):
+    meme_file_id = get_random_meme()
+    with open(meme_file_id, 'rb') as meme_file:
+        bot.send_photo(message.chat.id, meme_file)
+
+# Запуск бота
+
+
 
 
 @bot.message_handler(commands=['cal_add'])
@@ -16,7 +52,7 @@ def send_hello(message):
         bot.reply_to(message, traslator_and_caliculator.calculator_add(ab[1], ab[2]))
         
     except:
-        bot.reply_to(message, 'введите /cal число a и число b через пробел1')
+        bot.reply_to(message, 'введите /cal_add число a и число b через пробел1')
 
 
 
@@ -29,7 +65,7 @@ def send_hello(message):
         bot.reply_to(message, traslator_and_caliculator.calculator_subtract(cd[1], cd[2]))
         
     except:
-        bot.reply_to(message, 'введите /cal число a и число b через пробел2')
+        bot.reply_to(message, 'введите /cal_sub число a и число b через пробел2')
 
 
 @bot.message_handler(commands=['cal_mult'])
@@ -41,7 +77,7 @@ def send_hello(message):
         bot.reply_to(message, traslator_and_caliculator.calculator_multiply(ef[1], ef[2]))
         
     except:
-        bot.reply_to(message, 'введите /cal число a и число b через пробел3')
+        bot.reply_to(message, 'введите /cal_mult число a и число b через пробел3')
 
 
 @bot.message_handler(commands=['cal_div'])
@@ -53,7 +89,7 @@ def send_hello(message):
         bot.reply_to(message, traslator_and_caliculator.calculator_divide(gh[1], gh[2]))
         
     except:
-        bot.reply_to(message, 'введите /cal число a и число b через пробел4')
+        bot.reply_to(message, 'введите /cal_div число a и число b через пробел4')
 
 #advanced
 '''@bot.message_handler(commands=['cal_div'])
@@ -125,6 +161,10 @@ bot.set_my_commands(
         telebot.types.BotCommand("/double_letter","non"),
         telebot.types.BotCommand("/watch_movies","non"),
        # telebot.types.BotCommand("/caliculator","non")
+        telebot.types.BotCommand("/cal_add","non"),
+        telebot.types.BotCommand("/cal_sub","non"),
+        telebot.types.BotCommand("cal_mult","non"),
+        telebot.types.BotCommand("/cal_div","non"),
             ],
     # scope=telebot.types.BotCommandScopeChat(12345678)  # use for personal command for users
     # scope=telebot.types.BotCommandScopeAllPrivateChats()  # use for all private chats
@@ -142,7 +182,14 @@ def echo_all(message):
 print('start')
 
 
-
+'''@bot.message_handler(commands=['tanslate'])
+def send_bye(message):
+    try:
+        mes = message.text.split()
+        if mes[1] == 'eng' and mes[2] == 'hola':
+            return 'hello'
+    except:
+        return 'didnt work'''
 
 
 
